@@ -5,8 +5,8 @@ on:
   - cron: "0 0 * * *"
 env:
   PANEL_PROJECT_NAME: pterodactyl-panel # Dockerhub project
-  DAEMON_PROJECT_NAME: pterodactyl-daemon
-  REPO_NAME: pterodactyl-containers
+  DAEMON_PROJECT_NAME: pterodactyl-wings
+  REPO_NAME: pterodactyl-docker
 jobs:
   get_versions:
     name: Get Versions
