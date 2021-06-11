@@ -1,5 +1,6 @@
 name: "Check Online Version"
 on:
+  watch: # star?
   workflow_dispatch:
   schedule:
   - cron: "0 0 * * *"
