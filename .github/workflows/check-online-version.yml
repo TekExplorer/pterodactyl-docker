@@ -5,8 +5,8 @@ on:
   schedule:
   - cron: "0 0 * * *"
 env:
-  PANEL_PROJECT_NAME: pterodactyl-panel # Dockerhub project
-  DAEMON_PROJECT_NAME: pterodactyl-daemon # Dockerhub project
+  PANEL_PROJECT_NAME: pterodactyl-panel   # Dockerhub project, can be overriden by a repo secret by the same name
+  DAEMON_PROJECT_NAME: pterodactyl-daemon # Dockerhub project, can be overriden by a repo secret by the same name
 
 jobs:
   get_versions:
@@ -16,8 +16,14 @@ jobs:
       current_panel_version: ${{ steps.panel_docker_version.outputs.version }}
       current_daemon_version: ${{ steps.daemon_docker_version.outputs.version }}
       latest_panel_version: ${{ steps.latest_versions.outputs.panel_version }}
-      latest_daemon_version: ${{ steps.latest_versions.outputs.daemon_version}}
+      latest_daemon_version: ${{ steps.latest_versions.outputs.daemon_version }}
     steps:
+    - if: secrets.PANEL_PROJECT_NAME != null
+      run: echo "PANEL_PROJECT_NAME=${{ secrets.PANEL_PROJECT_NAME }} >> $GITHUB_ENV
+      
+    - if: secrets.DAEMON_PROJECT_NAME != null
+      run: echo "DAEMON_PROJECT_NAME=${{ secrets.DAEMON_PROJECT_NAME }} >> $GITHUB_ENV
+
     - name: Get Panel Version
       id: get_panel_version
       uses: pozetroninc/github-action-get-latest-release@master
