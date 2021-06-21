@@ -1,12 +1,13 @@
 name: "Check Online Version"
 on:
-  watch: # star?
+  watch: # star
   workflow_dispatch:
   schedule:
   - cron: "0 0 * * *"
 env:
   PANEL_PROJECT_NAME: pterodactyl-panel # Dockerhub project
-  DAEMON_PROJECT_NAME: pterodactyl-wings
+  DAEMON_PROJECT_NAME: pterodactyl-daemon # Dockerhub project
+
 jobs:
   get_versions:
     name: Get Versions
@@ -65,7 +66,10 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
-        inputs: '{"version":"${{ needs.get_versions.outputs.latest_daemon_version }}"}'
+        inputs: '{
+          "version":"${{ needs.get_versions.outputs.latest_daemon_version }}",
+          "dockerhub_package":"${{ env.PANEL_PROJECT_NAME }}"
+          }'
 
   request_panel_build:
     name: Request Panel Build
@@ -85,4 +89,7 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
-        inputs: '{"version":"${{ needs.get_versions.outputs.latest_panel_version }}"}'
+        inputs: '{
+          "version":"${{ needs.get_versions.outputs.latest_panel_version }}",
+          "dockerhub_package":"${{ env.DAEMON_PROJECT_NAME }}"
+          }'

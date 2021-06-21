@@ -1,14 +1,13 @@
 name: Update Wings Image
-
 on:
   workflow_dispatch:
     inputs:
       version:
         description: 'The Daemon version to build'
         required: true
-env:
-  DAEMON_PROJECT_NAME: pterodactyl-wings
-
+      dockerhub_package:
+        description: 'The Daemon DockerHub Project Name'
+        required: true
 jobs:
   build_push_wings:
     name: Build and Push Wings Container
@@ -38,5 +37,5 @@ jobs:
         push: true
         build-args: VERSION=${{ github.event.inputs.version }}
         tags: |
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}:latest"
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}:${{ github.event.inputs.version }}"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.${{ github.event.inputs.dockerhub_package }} }}:latest"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.${{ github.event.inputs.dockerhub_package }} }}:${{ github.event.inputs.version }}"
