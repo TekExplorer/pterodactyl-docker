@@ -54,19 +54,19 @@ jobs:
       with:
         image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}
 
-  update-version-txt:
-    name: Update version.txt
-    runs-on: ubuntu-latest
-    needs: get_versions
-    if: needs.get_versions.outputs.latest_panel_version != needs.get_versions.outputs.current_panel_version || needs.get_versions.outputs.latest_daemon_version != needs.get_versions.outputs.current_daemon_version
-    steps:
-    - uses: actions/checkout@v2
-    - run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        echo -e "PANEL_VERSION=${{ needs.get_versions.outputs.latest_panel_version }}\nDAEMON_VERSION=${{ needs.get_versions.outputs.latest_daemon_version }}" > ./manifest/version.txt
-        git commit -a -m "updated version.txt."
-        git push
+  # update-version-txt:
+  #   name: Update version.txt
+  #   runs-on: ubuntu-latest
+  #   needs: get_versions
+  #   if: needs.get_versions.outputs.latest_panel_version != needs.get_versions.outputs.current_panel_version || needs.get_versions.outputs.latest_daemon_version != needs.get_versions.outputs.current_daemon_version
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - run: |
+  #       git config user.name github-actions
+  #       git config user.email github-actions@github.com
+  #       echo -e "PANEL_VERSION=${{ needs.get_versions.outputs.latest_panel_version }}\nDAEMON_VERSION=${{ needs.get_versions.outputs.latest_daemon_version }}" > ./manifest/version.txt
+  #       git commit -a -m "updated version.txt."
+  #       git push
   
   request_daemon_build:
     name: Request Daemon Build
@@ -87,6 +87,10 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
+        inputs: '{
+          "PANEL_VERSION":"${{ needs.get_versions.outputs.latest_panel_version }}",
+          "DAEMON_VERSION":"${{ needs.get_versions.outputs.latest_daemon_version }}"
+          }'
 
   request_panel_build:
     name: Request Panel Build
@@ -107,3 +111,7 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
+        inputs: '{
+          "PANEL_VERSION":"${{ needs.get_versions.outputs.latest_panel_version }}",
+          "DAEMON_VERSION":"${{ needs.get_versions.outputs.latest_daemon_version }}"
+          }'

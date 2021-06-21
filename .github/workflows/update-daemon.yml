@@ -11,11 +11,6 @@ jobs:
     steps:
     - name: Setup repo
       uses: actions/checkout@v2
-
-    - name: Read Version
-      id: read_version
-      run: |
-        echo "::set-output name=version::$(grep -Po "DAEMON_VERSION=\K[^ ]+" ./manifest/version.txt)"
         
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -36,7 +31,7 @@ jobs:
         file: ./manifest/images/daemon/Dockerfile
         platforms: linux/amd64,linux/arm64
         push: true
-        build-args: VERSION=${{ steps.read_version.outputs.version }}
+        build-args: VERSION=${{ github.event.inputs.DAEMON_VERSION }}
         tags: |
           "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}:latest"
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}:${{ steps.read_version.outputs.version }}"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}:${{ github.event.inputs.DAEMON_VERSION }}"

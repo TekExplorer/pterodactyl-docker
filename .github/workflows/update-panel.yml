@@ -11,11 +11,6 @@ jobs:
     steps:
     - name: Setup repo
       uses: actions/checkout@v2
-
-    - name: Read Version
-      id: read_version
-      run: |
-        echo "::set-output name=version::$(grep -Po "PANEL_VERSION=\K[^ ]+" ./manifest/version.txt)"
         
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -35,8 +30,8 @@ jobs:
         context: ./manifest/images/panel
         file: ./manifest/images/panel/Dockerfile
         platforms: linux/amd64,linux/arm64
-        build-args: VERSION=${{ steps.read_version.outputs.version }}
+        build-args: VERSION=${{ github.event.inputs.PANEL_VERSION }}
         push: true
         tags: |
           "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:latest"
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:${{ steps.read_version.outputs.version }}"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:${{ github.event.inputs.PANEL_VERSION }}"
