@@ -3,7 +3,7 @@ name: Update Panel Image
 on:
   workflow_dispatch:
     inputs:
-      PANEL_VERSION:
+      version:
         description: 'The Panel version to build'
         required: true
 env:
@@ -35,8 +35,8 @@ jobs:
         context: ./manifest/images/panel
         file: ./manifest/images/panel/Dockerfile
         platforms: linux/amd64,linux/arm64
-        build-args: VERSION=${{ github.event.inputs.PANEL_VERSION }}
+        build-args: VERSION=${{ github.event.inputs.version }}
         push: true
         tags: |
           "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:latest"
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:${{ github.event.inputs.PANEL_VERSION }}"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PANEL_PROJECT_NAME }}:${{ github.event.inputs.version }}"

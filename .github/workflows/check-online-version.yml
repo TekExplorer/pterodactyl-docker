@@ -65,9 +65,7 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
-        inputs: '{
-          "DAEMON_VERSION":"${{ needs.get_versions.outputs.latest_daemon_version }}"
-          }'
+        inputs: '{"version":"${{ needs.get_versions.outputs.latest_daemon_version }}"}'
 
   request_panel_build:
     name: Request Panel Build
@@ -87,6 +85,4 @@ jobs:
         ref: master
         trigger_workflow: true
         wait_workflow: false
-        inputs: '{
-          "PANEL_VERSION":"${{ needs.get_versions.outputs.latest_panel_version }}",
-          }'
+        inputs: '{"version":"${{ needs.get_versions.outputs.latest_panel_version }}"}'
