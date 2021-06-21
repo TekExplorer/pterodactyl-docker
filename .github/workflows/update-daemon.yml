@@ -2,8 +2,13 @@ name: Update Wings Image
 
 on:
   workflow_dispatch:
+    inputs:
+      DAMEON_VERSION:
+        description: 'The Daemon version to build'
+        required: true
 env:
-    DAEMON_PROJECT_NAME: pterodactyl-wings
+  DAEMON_PROJECT_NAME: pterodactyl-wings
+
 jobs:
   build_push_wings:
     name: Build and Push Wings Container

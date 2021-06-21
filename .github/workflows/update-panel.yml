@@ -2,8 +2,13 @@ name: Update Panel Image
 
 on:
   workflow_dispatch:
+    inputs:
+      PANEL_VERSION:
+        description: 'The Panel version to build'
+        required: true
 env:
-    PANEL_PROJECT_NAME: pterodactyl-panel # Dockerhub project
+  PANEL_PROJECT_NAME: pterodactyl-panel # Dockerhub project
+
 jobs:
   build_push_panel:
     name: Build and Push Panel Container
