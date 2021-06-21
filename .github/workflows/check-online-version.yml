@@ -17,13 +17,31 @@ jobs:
       latest_panel_version: ${{ steps.latest_versions.outputs.panel_version }}
       latest_daemon_version: ${{ steps.latest_versions.outputs.daemon_version}}
     steps:
+    - name: Get Panel Version
+      id: get_panel_version
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        repository: pterodactyl/panel
+        
+    - name: Get Daemon Version
+      id: get_daemon_version
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        repository: pterodactyl/wings
+
+   # - name: Get Current Release
+   #   id: latest_versions
+   #   run: |
+   #     latest_info="$(curl -s "https://cdn.pterodactyl.io/releases/latest.json")"
+   #     echo "::set-output name=panel_version::v$(echo $latest_info | jq -r '.panel')"
+   #     echo "::set-output name=daemon_version::v$(echo $latest_info | jq -r '.wings')"
+      
     - name: Get Current Release
       id: latest_versions
       run: |
-        latest_info="$(curl -s "https://cdn.pterodactyl.io/releases/latest.json")"
-        echo "::set-output name=panel_version::v$(echo $latest_info | jq -r '.panel')"
-        echo "::set-output name=daemon_version::v$(echo $latest_info | jq -r '.wings')"
-                
+        echo "::set-output name=panel_version::${{ steps.get_panel_version.outputs.release }}"
+        echo "::set-output name=daemon_version::${{ steps.get_daemon_version.outputs.release }}"
+
     - name: Get Panel Docker version
       uses: luoqiz/docker-images-latest-version@master
       id: panel_docker_version
