@@ -53,27 +53,12 @@ jobs:
       id: daemon_docker_version
       with:
         image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DAEMON_PROJECT_NAME }}
-
-  # update-version-txt:
-  #   name: Update version.txt
-  #   runs-on: ubuntu-latest
-  #   needs: get_versions
-  #   if: needs.get_versions.outputs.latest_panel_version != needs.get_versions.outputs.current_panel_version || needs.get_versions.outputs.latest_daemon_version != needs.get_versions.outputs.current_daemon_version
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - run: |
-  #       git config user.name github-actions
-  #       git config user.email github-actions@github.com
-  #       echo -e "PANEL_VERSION=${{ needs.get_versions.outputs.latest_panel_version }}\nDAEMON_VERSION=${{ needs.get_versions.outputs.latest_daemon_version }}" > ./manifest/version.txt
-  #       git commit -a -m "updated version.txt."
-  #       git push
   
   request_daemon_build:
     name: Request Daemon Build
     runs-on: ubuntu-latest
     needs:
     - get_versions
-    - update-version-txt
     steps:
     - run: echo "name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
       id: repo-name
@@ -97,7 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
     - get_versions
-    - update-version-txt
     steps:
     - run: echo "name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
       id: repo-name
