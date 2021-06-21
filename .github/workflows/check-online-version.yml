@@ -18,12 +18,14 @@ jobs:
       latest_panel_version: ${{ steps.latest_versions.outputs.panel_version }}
       latest_daemon_version: ${{ steps.latest_versions.outputs.daemon_version }}
     steps:
-    - env:
+    - name: Override PANEL_PROJECT_NAME
+      env:
         project_name: ${{ secrets.PANEL_PROJECT_NAME }}
       if: env.project_name != null
       run: echo "PANEL_PROJECT_NAME=${{ env.project_name }} >> $GITHUB_ENV
       
-    - env:
+    - name: Override DAEMON_PROJECT_NAME
+      env:
         project_name: ${{ secrets.DAMEON_PROJECT_NAME }}
       if: env.project_name != null
       run: echo "DAEMON_PROJECT_NAME=${{ env.project_name }} >> $GITHUB_ENV
