@@ -37,5 +37,5 @@ jobs:
         push: true
         build-args: VERSION=${{ github.event.inputs.version }}
         tags: |
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.${{ github.event.inputs.dockerhub_package }} }}:latest"
-          "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.${{ github.event.inputs.dockerhub_package }} }}:${{ github.event.inputs.version }}"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.inputs.dockerhub_package }}:latest"
+          "${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.inputs.dockerhub_package }}:${{ github.event.inputs.version }}"
