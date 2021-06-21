@@ -53,7 +53,7 @@ jobs:
     needs:
     - get_versions
     steps:
-    - run: echo "name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
+    - run: echo "REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
       id: repo-name
       shell: bash
     - uses: convictional/trigger-workflow-and-wait@v1.4.0
@@ -76,7 +76,7 @@ jobs:
     needs:
     - get_versions
     steps:
-    - run: echo "name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
+    - run: echo "REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//")" >> $GITHUB_ENV
       id: repo-name
       shell: bash
     - uses: convictional/trigger-workflow-and-wait@v1.4.0
