@@ -66,7 +66,6 @@ jobs:
         trigger_workflow: true
         wait_workflow: false
         inputs: '{
-          "PANEL_VERSION":"${{ needs.get_versions.outputs.latest_panel_version }}",
           "DAEMON_VERSION":"${{ needs.get_versions.outputs.latest_daemon_version }}"
           }'
 
@@ -90,5 +89,4 @@ jobs:
         wait_workflow: false
         inputs: '{
           "PANEL_VERSION":"${{ needs.get_versions.outputs.latest_panel_version }}",
-          "DAEMON_VERSION":"${{ needs.get_versions.outputs.latest_daemon_version }}"
           }'
