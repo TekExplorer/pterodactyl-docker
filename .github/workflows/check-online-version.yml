@@ -6,7 +6,7 @@ on:
   - cron: "0 0 * * *"
 env:
   PANEL_PROJECT_NAME: pterodactyl-panel   # Dockerhub project, can be overriden by a repo secret by the same name
-  DAEMON_PROJECT_NAME: pterodactyl-daemon # Dockerhub project, can be overriden by a repo secret by the same name
+  DAEMON_PROJECT_NAME: pterodactyl-wings # Dockerhub project, can be overriden by a repo secret by the same name
 
 jobs:
   get_versions:
