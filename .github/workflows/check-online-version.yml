@@ -96,7 +96,7 @@ jobs:
         wait_workflow: false
         inputs: '{
           "version":"${{ needs.get_versions.outputs.latest_daemon_version }}",
-          "dockerhub_package":"${{ env.PANEL_PROJECT_NAME }}"
+          "dockerhub_package":"${{ env.DAEMON_PROJECT_NAME }}"
           }'
 
   request_panel_build:
@@ -120,5 +120,5 @@ jobs:
         wait_workflow: false
         inputs: '{
           "version":"${{ needs.get_versions.outputs.latest_panel_version }}",
-          "dockerhub_package":"${{ env.DAEMON_PROJECT_NAME }}"
+          "dockerhub_package":"${{ env.PANEL_PROJECT_NAME }}"
           }'
